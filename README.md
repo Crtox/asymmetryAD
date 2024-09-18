@@ -1,8 +1,6 @@
 # 🧠 asymmetryAD
 
 [![Python Version](https://img.shields.io/badge/Python-3.x-blue)](https://www.python.org/downloads/)
-[![License](https://img.shields.io/badge/License-MIT-green)](./LICENSE)
-[![Last Commit](https://img.shields.io/github/last-commit/Crtox/asymmetryAD)](https://github.com/Crtox/asymmetryAD/commits/main)
 
 ## 📖 Project Overview
 

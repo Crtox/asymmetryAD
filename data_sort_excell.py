@@ -7,8 +7,8 @@
 import pandas as pd
 
 # load and write paths 
-loadPath = "../NACC_data/excell/"
-writePath = "./"
+loadPath = "./NACC_data/excell/"
+writePath = "../"
 
 # Load the Excel file
 df = pd.read_csv(loadPath+'investigator_mri_nacc66.csv')

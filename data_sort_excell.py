@@ -11,7 +11,7 @@ loadPath = "../NACC_data/excell/"
 writePath = "./"
 
 # Load the Excel file
-df = pd.read_csv(loadPath+'investigator_mri_nacc66.csv', engine='openpyxl')
+df = pd.read_csv(loadPath+'investigator_mri_nacc66.csv')
 
 # Filter only patients with MRIT1 = 1 (those who had their MRIT1 taken)
 df_mri_t1 = df[df['MRIT1'] == 1]
@@ -32,6 +32,6 @@ df_final = df_longitudinal[['NACCID', 'NACCMNUM', 'MRIDate', 'NACCMRIA', 'NACCMR
 df_final.columns = ['NACCID', 'NACCMNUM', 'MRIMO/MRIDY/MRIYR', 'NACCMRIA', 'NACCMRFI']
 
 # Write the filtered and formatted data to a new Excel file
-df_final.to_csv(writePath+'MRIT1_longitudinal.xlsx', index=False, engine='xlsxwriter')
+df_final.to_csv(writePath+'MRIT1_longitudinal.xlsx', index=False)
 
 print("Data extraction and writing complete!")

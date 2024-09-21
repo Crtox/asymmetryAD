@@ -21,7 +21,7 @@
 
 - **Programming Language**: Python 🐍
 - **Libraries**: 
-   - `numpy`, `scipy`, `nibabel`, `matplotlib`, etc.
+   - `numpy`, `scipy`, `nibabel`, `matplotlib`, `pandas`, etc.
    - Specialized packages for medical image processing and statistical analysis.
    
 ## 📁 Repository Structure

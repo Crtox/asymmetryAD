@@ -29,6 +29,6 @@
 ```bash
 asymmetryAD/
 │
-├── extract_region_values.ipynb      # Main script for calculating AI 
+├── various python files             # Main scripts for calculating AI, sorting and analyzing data 
 ├── results/                         # Output files and results of experiments
 └── README.md                        # This file!

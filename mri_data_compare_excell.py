@@ -26,11 +26,33 @@ common_naccids = set(naccid_file1).intersection(set(naccid_file2))
 
 # Step 5: Print the number of common NACCIDs and the IDs
 print(f"Number of common NACCIDs: {len(common_naccids)}")
-#print("Common NACCIDs:", common_naccids)
-
-# # Optional: Save the common NACCIDs to a new CSV file if needed
-# pd.DataFrame(common_naccids, columns=['NACCID']).to_csv('', index=False)
 
 print("Comparison complete!")
 
-# CONCLUSION: all the longitudinal data from investigator_mri_nacc66 (I stored in MRIT1_longitudinal) is also in investigator_nacc66
+
+####################################################################################################################################
+#CONCLUSION: all the longitudinal data from investigator_mri_nacc66 (I stored in MRIT1_longitudinal) is also in investigator_nacc66#
+####################################################################################################################################
+
+
+# Now I will take all the common NACCIDs and write them to a new .csv file that includes all the UDS visits data
+
+writePath = "./python/"
+
+# filtering data using only common NACCIDs
+df_longitudinal = df2[df2['NACCID'].isin(common_naccids)]
+
+# selecting relevant columns 
+df_final = df_longitudinal[['NACCID'], ['NACCVNUM'], ['VISITMO'], ['VISITDAY'], ['VISITYR'], ['NACCUDSD']]
+df_final.columns = ['NACCID'], ['NACCVNUM'], ['VISITMO'], ['VISITDAY'], ['VISITYR'], ['NACCUDSD']
+
+
+# sanity check
+print("Final dataset preview:")
+print(df_final.head())
+
+
+# write to a new .csv file
+df_final.to_csv(writePath + 'MRIT1_longitudinal_UDS.csv', index=False)
+
+print("Data extraction and writing to CSV complete!")

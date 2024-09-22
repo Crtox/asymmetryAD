@@ -29,7 +29,7 @@
 ```bash
 asymmetryAD/
 │
-├── various python files             # Main scripts for calculating AI, sorting and analyzing data
-├── MRIT1.csv                        # .csv file for storing info about patients
+├── code/                            # Python scripts for calculation, sorting and analyzing data
+├── data/                            # .csv and .txt files for storing info about patients
 ├── results/                         # Output files and results of experiments
 └── README.md                        # This file!

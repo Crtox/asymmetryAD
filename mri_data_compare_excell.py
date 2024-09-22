@@ -9,7 +9,7 @@ import pandas as pd
 # load and write paths 
 loadPath1 = "./NACC_data/excell/"
 loadPath2 = "./python/"
-
+writePath = "./python/"
 
 # Step 1: Load the first CSV file (the one we created earlier)
 df1 = pd.read_csv(loadPath1 + 'investigator_nacc66.csv')
@@ -34,25 +34,13 @@ print("Comparison complete!")
 #CONCLUSION: all the longitudinal data from investigator_mri_nacc66 (I stored in MRIT1_longitudinal) is also in investigator_nacc66#
 ####################################################################################################################################
 
+# save the common NACCIDs to a .txt file
 
-# Now I will take all the common NACCIDs and write them to a new .csv file that includes all the UDS visits data
+def save_common_naccids_to_txt(common_naccids, filepath):
+    with open(filepath, 'w') as f:
+        for naccid in common_naccids:
+            f.write(f"{naccid}\n")
 
-writePath = "./python/"
+save_common_naccids_to_txt(common_naccids, writePath + 'common_naccids.txt')
 
-# filtering data using only common NACCIDs
-df_longitudinal = df2[df2['NACCID'].isin(common_naccids)]
-
-# selecting relevant columns 
-df_final = df_longitudinal[['NACCID'], ['NACCVNUM'], ['VISITMO'], ['VISITDAY'], ['VISITYR'], ['NACCUDSD']]
-df_final.columns = ['NACCID'], ['NACCVNUM'], ['VISITMO'], ['VISITDAY'], ['VISITYR'], ['NACCUDSD']
-
-
-# sanity check
-print("Final dataset preview:")
-print(df_final.head())
-
-
-# write to a new .csv file
-df_final.to_csv(writePath + 'MRIT1_longitudinal_UDS.csv', index=False)
-
-print("Data extraction and writing to CSV complete!")
+print("Save to .txt complete!")

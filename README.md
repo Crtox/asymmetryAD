@@ -21,7 +21,7 @@
 
 - **Programming Language**: Python 🐍
 - **Libraries**: 
-   - `numpy`, `scipy`, `nibabel`, `matplotlib`, etc.
+   - `numpy`, `scipy`, `nibabel`, `matplotlib`, `pandas`, etc.
    - Specialized packages for medical image processing and statistical analysis.
    
 ## 📁 Repository Structure
@@ -29,6 +29,7 @@
 ```bash
 asymmetryAD/
 │
-├── extract_region_values.ipynb      # Main script for calculating AI 
+├── various python files             # Main scripts for calculating AI, sorting and analyzing data
+├── MRIT1.csv                        # .csv file for storing info about patients
 ├── results/                         # Output files and results of experiments
 └── README.md                        # This file!

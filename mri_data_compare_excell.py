@@ -7,15 +7,15 @@
 import pandas as pd
 
 # load and write paths 
-loadPath = "./NACC_data/excell/"
-writePath = "./python/"
+loadPath1 = "./NACC_data/excell/"
+loadPath2 = "./python/"
 
 
 # Step 1: Load the first CSV file (the one we created earlier)
-df1 = pd.read_csv(loadPath + 'investigator_mri_nacc66.csv')
+df1 = pd.read_csv(loadPath1 + 'investigator_nacc66.csv')
 
 # Step 2: Load the second CSV file (the one with NACCID in the first column)
-df2 = pd.read_csv(loadPath + 'investigator_nacc66.csv')
+df2 = pd.read_csv(loadPath2 + 'MRIT1_longitudinal.csv')
 
 # Step 3: Extract the NACCID columns from both files
 naccid_file1 = df1['NACCID'].unique()  # Extract unique NACCIDs from the first file
@@ -32,3 +32,5 @@ print(f"Number of common NACCIDs: {len(common_naccids)}")
 # pd.DataFrame(common_naccids, columns=['NACCID']).to_csv('', index=False)
 
 print("Comparison complete!")
+
+# CONCLUSION: all the longitudinal data from investigator_mri_nacc66 (I stored in MRIT1_longitudinal) is also in investigator_nacc66

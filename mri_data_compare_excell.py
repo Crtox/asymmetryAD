@@ -41,6 +41,6 @@ def save_common_naccids_to_txt(common_naccids, filepath):
         for naccid in common_naccids:
             f.write(f"{naccid}\n")
 
-save_common_naccids_to_txt(common_naccids, writePath + 'common_naccids.txt')
+save_common_naccids_to_txt(common_naccids, writePath + 'naccids_common.txt')
 
 print("Save to .txt complete!")

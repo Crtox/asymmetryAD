@@ -8,11 +8,12 @@
 
 import pandas as pd
 
-writePath = './python/'
+loadPath = './python/data/'
+writePath = './python/data/'
 
 
 # Load the CSV file
-df = pd.read_csv('path_to_your_csv/MRIT1_longitudinal_UDS.csv')
+df = pd.read_csv(loadPath + 'MRIT1_longitudinal_UDS.csv')
 
 
 # Group by NACCID and aggregate NACCUDSD values into a list
@@ -25,10 +26,16 @@ constant_2 = []
 constant_3 = []
 constant_4 = []
 change_1_2 = []
-change_2_3 = []
-change_3_4 = []
+change_1_3 = []
+change_1_4 = []
 change_1_2_3 = []
+change_1_2_4 = []
+change_1_3_4 = []
+change_1_2_3_4 = []
+change_2_3 = []
+change_2_4 = []
 change_2_3_4 = []
+change_3_4 = []
 
 
 # Loop through each patient and categorize
@@ -48,28 +55,46 @@ for naccid, udsd_values in grouped.items():
     # Changes in values
     elif unique_values == [1, 2]:
         change_1_2.append(naccid)
-    elif unique_values == [2, 3]:
-        change_2_3.append(naccid)
-    elif unique_values == [3, 4]:
-        change_3_4.append(naccid)
+    elif unique_values == [1, 3]:
+        change_1_3.append(naccid)
+    elif unique_values == [1, 4]:
+        change_1_4.append(naccid)
     elif unique_values == [1, 2, 3]:
         change_1_2_3.append(naccid)
+    elif unique_values == [1, 2, 4]:
+        change_1_2_4.append(naccid)
+    elif unique_values == [1, 3, 4]:
+        change_1_3_4.append(naccid)
+    elif unique_values == [1, 2, 3, 4]:
+        change_1_2_3_4.append(naccid)
+    elif unique_values == [2, 3]:
+        change_2_3.append(naccid)
+    elif unique_values == [2, 4]:
+        change_2_4.append(naccid)
     elif unique_values == [2, 3, 4]:
         change_2_3_4.append(naccid)
+    elif unique_values == [3, 4]:
+        change_3_4.append(naccid)
 
-        
+
 
 # Save results to a .txt file
-with open(writePath + 'naccids_by_uds_categories.txt', 'w') as f:
+with open(writePath + '/naccids_by_uds_categories.txt', 'w') as f:
     # Write each group into a new row
     f.write(",".join(constant_1) + '\n')
     f.write(",".join(constant_2) + '\n')
     f.write(",".join(constant_3) + '\n')
     f.write(",".join(constant_4) + '\n')
     f.write(",".join(change_1_2) + '\n')
-    f.write(",".join(change_2_3) + '\n')
-    f.write(",".join(change_3_4) + '\n')
+    f.write(",".join(change_1_3) + '\n')
+    f.write(",".join(change_1_4) + '\n')
     f.write(",".join(change_1_2_3) + '\n')
+    f.write(",".join(change_1_2_4) + '\n')
+    f.write(",".join(change_1_3_4) + '\n')
+    f.write(",".join(change_1_2_3_4) + '\n')
+    f.write(",".join(change_2_3) + '\n')
+    f.write(",".join(change_2_4) + '\n')
     f.write(",".join(change_2_3_4) + '\n')
+    f.write(",".join(change_3_4) + '\n')
 
 print("NACCID categorization complete and saved to .txt file!")

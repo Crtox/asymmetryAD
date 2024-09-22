@@ -38,3 +38,5 @@ print(df_final.head())
 df_final.to_csv(writePath + 'MRIT1_longitudinal.csv', index=False)
 
 print("Data extraction and writing to CSV complete!")
+
+

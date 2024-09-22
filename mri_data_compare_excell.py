@@ -1,5 +1,5 @@
 #--------------------------------------------------------------------------------------------------------------#
-#        Script to compare common patients' IDs from two different .csv files                                  #
+#               Script to compare common patients' IDs from two different .csv files                           #
 #                                                                                                              #
 #                                    Črt Rozman, September 2024                                                #
 #--------------------------------------------------------------------------------------------------------------#

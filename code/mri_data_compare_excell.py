@@ -7,15 +7,15 @@
 import pandas as pd
 
 # load and write paths 
-loadPath1 = "./NACC_data/excell/"
-loadPath2 = "./python/"
-writePath = "./python/"
+loadPath1 = "./python/data/"
+loadPath2 = "./python/data/"
+writePath = "./python/data/"
 
 # Step 1: Load the first CSV file (the one we created earlier)
-df1 = pd.read_csv(loadPath1 + 'investigator_nacc66.csv')
+df1 = pd.read_csv(loadPath1 + 'MRIT1_longitudinal.csv')
 
 # Step 2: Load the second CSV file (the one with NACCID in the first column)
-df2 = pd.read_csv(loadPath2 + 'MRIT1_longitudinal.csv')
+df2 = pd.read_csv(loadPath2 + 'MRIT1_longitudinal_UDS.csv')
 
 # Step 3: Extract the NACCID columns from both files
 naccid_file1 = df1['NACCID'].unique()  # Extract unique NACCIDs from the first file

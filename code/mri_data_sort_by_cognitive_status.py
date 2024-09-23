@@ -5,26 +5,23 @@
 #--------------------------------------------------------------------------------------------------------------#
 
 
-
 import pandas as pd
 
 loadPath = './python/data/'
 writePath = './python/data/'
 
-
 # Load the CSV file
 df = pd.read_csv(loadPath + 'MRIT1_longitudinal_UDS.csv')
 
-
 # Group by NACCID and aggregate NACCUDSD values into a list
 grouped = df.groupby('NACCID')['NACCUDSD'].apply(list)
-
 
 # Initialize categories (1=normal cognition, 2=impaired-not MCI, 3=mild cognitive impairment, 4=demented)
 constant_1 = []
 constant_2 = []
 constant_3 = []
 constant_4 = []
+
 change_1_2 = []
 change_1_3 = []
 change_1_4 = []
@@ -37,13 +34,43 @@ change_2_4 = []
 change_2_3_4 = []
 change_3_4 = []
 
+# Set to store NACCIDs that have already been categorized
+categorized_naccids = set()
 
 # Loop through each patient and categorize
 for naccid, udsd_values in grouped.items():
     unique_values = list(sorted(set(udsd_values)))
+
+    # Ensure the patient is not already categorized
+    if naccid in categorized_naccids:
+        continue
+
+    # Prioritize more complex categories first
+    if unique_values == [1, 2, 3, 4]:
+        change_1_2_3_4.append(naccid)
+    elif unique_values == [1, 2, 3]:
+        change_1_2_3.append(naccid)
+    elif unique_values == [1, 2, 4]:
+        change_1_2_4.append(naccid)
+    elif unique_values == [1, 3, 4]:
+        change_1_3_4.append(naccid)
+    elif unique_values == [1, 2]:
+        change_1_2.append(naccid)
+    elif unique_values == [1, 3]:
+        change_1_3.append(naccid)
+    elif unique_values == [1, 4]:
+        change_1_4.append(naccid)
+    elif unique_values == [2, 3, 4]:
+        change_2_3_4.append(naccid)
+    elif unique_values == [2, 3]:
+        change_2_3.append(naccid)
+    elif unique_values == [2, 4]:
+        change_2_4.append(naccid)
+    elif unique_values == [3, 4]:
+        change_3_4.append(naccid)
     
-    # Constant values
-    if unique_values == [1]:
+    # Now handle constant values
+    elif unique_values == [1]:
         constant_1.append(naccid)
     elif unique_values == [2]:
         constant_2.append(naccid)
@@ -51,31 +78,21 @@ for naccid, udsd_values in grouped.items():
         constant_3.append(naccid)
     elif unique_values == [4]:
         constant_4.append(naccid)
-    
-    # Changes in values
-    elif unique_values == [1, 2]:
-        change_1_2.append(naccid)
-    elif unique_values == [1, 3]:
-        change_1_3.append(naccid)
-    elif unique_values == [1, 4]:
-        change_1_4.append(naccid)
-    elif unique_values == [1, 2, 3]:
-        change_1_2_3.append(naccid)
-    elif unique_values == [1, 2, 4]:
-        change_1_2_4.append(naccid)
-    elif unique_values == [1, 3, 4]:
-        change_1_3_4.append(naccid)
-    elif unique_values == [1, 2, 3, 4]:
-        change_1_2_3_4.append(naccid)
-    elif unique_values == [2, 3]:
-        change_2_3.append(naccid)
-    elif unique_values == [2, 4]:
-        change_2_4.append(naccid)
-    elif unique_values == [2, 3, 4]:
-        change_2_3_4.append(naccid)
-    elif unique_values == [3, 4]:
-        change_3_4.append(naccid)
 
+    # Mark this patient as categorized
+    categorized_naccids.add(naccid)
+
+
+# Sanity check: Ensure no duplication across categories
+total_count = (
+    len(constant_1) + len(constant_2) + len(constant_3) + len(constant_4) +
+    len(change_1_2) + len(change_1_3) + len(change_1_4) +
+    len(change_1_2_3) + len(change_1_2_4) + len(change_1_3_4) +
+    len(change_1_2_3_4) + len(change_2_3) + len(change_2_4) +
+    len(change_2_3_4) + len(change_3_4)
+)
+
+print(f"Total number of NACCIDs across all categories: {total_count}")
 
 
 # Save results to a .txt file

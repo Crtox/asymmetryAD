@@ -2,7 +2,7 @@
 
 import pandas as pd
 
-loadPath = './python/'
+loadPath = './python/data/'
 
 df = pd.read_csv(loadPath + 'MRIT1_longitudinal_UDS.csv')
 

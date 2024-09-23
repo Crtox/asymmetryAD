@@ -4,7 +4,7 @@ import pandas as pd
 
 loadPath = './python/data/'
 
-df = pd.read_csv(loadPath + 'MRIT1_longitudinal_UDS.csv')
+df = pd.read_csv(loadPath + 'MRIT1_longitudinal.csv')
 
 unique_count = df['NACCID'].nunique()
 

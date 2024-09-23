@@ -8,8 +8,8 @@
 import pandas as pd
 
 loadPath = "./NACC_data/excell/"
-writePath = "./python/"
-common_naccids_filepath = writePath + 'common_naccids.txt'
+writePath = "./python/data/"
+common_naccids_filepath = writePath + 'naccids_common.txt'
 
 
 # reading the .csv file with UDS data
@@ -18,8 +18,8 @@ df = pd.read_csv(loadPath + 'investigator_nacc66.csv')
 
 # Function to load NACCIDs from a .txt file
 def load_common_naccids_from_txt(filepath):
-    with open(filepath, 'r') as f:
-        return set(line.strip() for line in f)
+     with open(filepath, 'r') as f:
+         return set(line.strip() for line in f)
     
 
 common_naccids = load_common_naccids_from_txt(common_naccids_filepath)
@@ -28,9 +28,12 @@ common_naccids = load_common_naccids_from_txt(common_naccids_filepath)
 # filtering data using only common NACCIDs
 df_longitudinal = df[df['NACCID'].isin(common_naccids)]
 
+# Filter only patients with NACCALZD = 1 or 0 (AD or not AD, 8 represents missing data)
+df_longitudinal = df[df['NACCALZD'] != 8]
+
 # selecting relevant columns 
-df_final = df_longitudinal[['NACCID', 'NACCVNUM', 'VISITMO', 'VISITDAY', 'VISITYR', 'NACCUDSD']]
-df_final.columns = ['NACCID','NACCVNUM', 'VISITMO', 'VISITDAY', 'VISITYR', 'NACCUDSD']
+df_final = df_longitudinal[['NACCID', 'NACCVNUM', 'VISITMO', 'VISITDAY', 'VISITYR', 'NACCUDSD', 'NACCALZD']]
+df_final.columns = ['NACCID','NACCVNUM', 'VISITMO', 'VISITDAY', 'VISITYR', 'NACCUDSD', 'NACCALZD']
 
 
 # sanity check

@@ -8,14 +8,14 @@ import pandas as pd
 
 # load and write paths 
 loadPath1 = "./python/data/"
-loadPath2 = "./python/data/"
+loadPath2 = "./NACC_data/excell/"
 writePath = "./python/data/"
 
 # Step 1: Load the first CSV file (the one we created earlier)
 df1 = pd.read_csv(loadPath1 + 'MRIT1_longitudinal.csv')
 
 # Step 2: Load the second CSV file (the one with NACCID in the first column)
-df2 = pd.read_csv(loadPath2 + 'MRIT1_longitudinal_UDS.csv')
+df2 = pd.read_csv(loadPath2 + 'investigator_nacc66.csv')
 
 # Step 3: Extract the NACCID columns from both files
 naccid_file1 = df1['NACCID'].unique()  # Extract unique NACCIDs from the first file
@@ -41,6 +41,6 @@ def save_common_naccids_to_txt(common_naccids, filepath):
         for naccid in common_naccids:
             f.write(f"{naccid}\n")
 
-save_common_naccids_to_txt(common_naccids, writePath + 'naccids_common_ALZD.txt')
+save_common_naccids_to_txt(common_naccids, writePath + 'naccids_common.txt')
 
 print("Save to .txt complete!")

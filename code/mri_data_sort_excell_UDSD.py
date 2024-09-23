@@ -28,8 +28,12 @@ common_naccids = load_common_naccids_from_txt(common_naccids_filepath)
 # filtering data using only common NACCIDs
 df_longitudinal = df[df['NACCID'].isin(common_naccids)]
 
+
+# use this if you want to exclude all the ALZD=8 
+#-------------------------------------------------------------------------------------------#
 # Filter only patients with NACCALZD = 1 or 0 (AD or not AD, 8 represents missing data)
-df_longitudinal = df_longitudinal[df_longitudinal['NACCALZD'] != 8]
+#df_longitudinal = df_longitudinal[df_longitudinal['NACCALZD'] != 8]
+#-------------------------------------------------------------------------------------------#
 
 
 # selecting relevant columns 

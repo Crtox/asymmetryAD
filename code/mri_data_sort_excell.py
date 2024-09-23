@@ -29,7 +29,7 @@ df = pd.read_csv(loadPath + 'investigator_mri_nacc66.csv')
 
 # NEW IMPLEMENTATION 
 #---------------------------------------------------------------------------#
-common_naccids_filepath = writePath + 'naccids_common.txt'
+common_naccids_filepath = writePath + 'naccids_common_ALZD.txt'
 
 # Function to load NACCIDs from a .txt file
 def load_common_naccids_from_txt(filepath):
@@ -52,7 +52,7 @@ print("Final dataset preview:")
 print(df_final.head())
 
 # Write the filtered and formatted data to a new CSV file
-df_final.to_csv(writePath + 'MRIT1_longitudinal.csv', index=False)
+df_final.to_csv(writePath + 'MRIT1_longitudinal_ALZD.csv', index=False)
 
 print("Data extraction and writing to CSV complete!")
 

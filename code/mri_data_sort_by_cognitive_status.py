@@ -11,7 +11,7 @@ loadPath = './python/data/'
 writePath = './python/data/'
 
 # Load the CSV file
-df = pd.read_csv(loadPath + 'MRIT1_longitudinal_UDS.csv')
+df = pd.read_csv(loadPath + 'MRIT1_UDS_matched_final.csv')
 
 # Group by NACCID and aggregate NACCUDSD values into a list
 grouped = df.groupby('NACCID')['NACCUDSD'].apply(list)
@@ -96,7 +96,7 @@ print(f"Total number of NACCIDs across all categories: {total_count}")
 
 
 # Save results to a .txt file
-with open(writePath + '/naccids_by_uds_categories.txt', 'w') as f:
+with open(writePath + '/naccids_by_uds_categories_matched_final.txt', 'w') as f:
     # Write each group into a new row
     f.write(",".join(constant_1) + '\n')
     f.write(",".join(constant_2) + '\n')

@@ -3,36 +3,25 @@
 import pandas as pd
 import os 
 
-matching_folders = ['//?/c:/Users/Crt/Desktop/WIMR/asymmetryAD/NACC_data/sorted_cohorts/MCI/mri8189ni']
+dataPath = "./NACC_data/sorted_cohorts/"
+# dataPath = os.path.abspath(dataPath)
 
-# Regular expression for T1 subfolder
-T1_prefix = 'T1'
-nacc_prefix = 'NACC'
-mprage_prefix = 'MPRAGE'
-fspgr_prefix = 'FSPGR'
+# if os.name ==  'nt':
+#     dataPath = '\\\\?\\' + dataPath
 
+df_nc = pd.read_csv(dataPath  + 'nc.csv')
+df_mci = pd.read_csv(dataPath + 'mci.csv')
+df_alz = pd.read_csv(dataPath + 'alzd.csv')
+df_trans = pd.read_csv(dataPath + 'trans.csv')
 
-# Loop through each folder in matching_folders
-for folder in matching_folders:
+nc_filenames = list(df_nc['NACCMRFI'])
+mci_filenames = list(df_mci['NACCMRFI'])
+alz_filenames = list(df_alz['NACCMRFI'])
+trans_filenames = list(df_trans['NACCMRFI'])
 
-    # List all subfolders in the folder_path
-    subfolders = os.listdir(folder)
-    
-    # Folders that contain only 1 subfolder (those have different substructures)
-    if len(subfolders) == 1:
+nc_dir_filenames = os.listdir(dataPath + 'NC')
+mci_dir_filenames = os.listdir(dataPath + 'MCI')
+alzd_dir_filenames = os.listdir(dataPath + 'ALZD')
+trans_dir_filenames = os.listdir(dataPath + 'TRANS')
 
-        subfolder_full_path = os.path.join(folder, subfolders[0])                        # only one subfolder 
-
-        if os.path.isdir(subfolder_full_path) and subfolders[0].startswith(nacc_prefix):
-
-            subfolders_in_nacc = os.listdir(subfolder_full_path)                         # List subfolders inside NACC (either nacc or many subfolders)
-
-            if len(subfolders_in_nacc) == 1:                                             # Some have structure NACC--->nacc--->subfolders like MPRAGE, FSPGR
-                
-                subfolder_in_nacc_full_path = os.path.join(subfolder_full_path, subfolders_in_nacc[0])         # only one subfolder
- 
-                subfolders_in_subfolder_nacc_in_nacc = os.listdir(subfolder_in_nacc_full_path)
-
-                for subs in subfolders_in_subfolder_nacc_in_nacc: 
-
-                    print(subs)
+print(nc_dir_filenames)

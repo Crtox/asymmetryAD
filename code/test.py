@@ -2,26 +2,33 @@
 
 import pandas as pd
 import os 
+import re
 
-dataPath = "./NACC_data/sorted_cohorts/"
-# dataPath = os.path.abspath(dataPath)
+alzdPath = './NACC_data/sorted_cohorts/ALZD/'
+alzdPath = os.path.abspath(alzdPath)
 
-# if os.name ==  'nt':
-#     dataPath = '\\\\?\\' + dataPath
+if os.name == 'nt':                     
+    alzdPath = '\\\\?\\' + alzdPath
 
-df_nc = pd.read_csv(dataPath  + 'nc.csv')
-df_mci = pd.read_csv(dataPath + 'mci.csv')
-df_alz = pd.read_csv(dataPath + 'alzd.csv')
-df_trans = pd.read_csv(dataPath + 'trans.csv')
+nacc_pattern = 'NACC'
 
-nc_filenames = list(df_nc['NACCMRFI'])
-mci_filenames = list(df_mci['NACCMRFI'])
-alz_filenames = list(df_alz['NACCMRFI'])
-trans_filenames = list(df_trans['NACCMRFI'])
 
-nc_dir_filenames = os.listdir(dataPath + 'NC')
-mci_dir_filenames = os.listdir(dataPath + 'MCI')
-alzd_dir_filenames = os.listdir(dataPath + 'ALZD')
-trans_dir_filenames = os.listdir(dataPath + 'TRANS')
 
-print(nc_dir_filenames)
+for folder in os.listdir(alzdPath): 
+
+    folder_path = os.path.join(alzdPath, folder)
+
+    if re.match(nacc_pattern, folder):
+            
+        # these type can have both MPRAGE or FSPGR 
+        subfolder_fp = os.path.join(folder_path, os.listdir(folder_path)[0])
+
+        sub_subfolder_fp = os.path.join(subfolder_fp, os.listdir(subfolder_fp)[0])
+
+        sub_sub_subfolder = os.path.join(sub_subfolder_fp, os.listdir(sub_subfolder_fp)[0])
+
+        for f in sub_sub_subfolder: 
+
+            if f.endswith('.json'):
+
+                print(f)

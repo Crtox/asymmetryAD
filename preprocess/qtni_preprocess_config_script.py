@@ -1,10 +1,19 @@
+#--------------------------------------------------------------------------------------------------------------#
+#                                     Script to preprocess .nii files                                          #
+#                                                                                                              #
+#                                         Črt Rozman, October 2024                                             #
+#                                                                                                              #
+#                      Rewritten from Matlab code that was written by Mauro Namies in 2020                     #
+#--------------------------------------------------------------------------------------------------------------#
 
 
 
+# Importing needed modules
 import os
 import time
 from glob import glob
 from tqdm import tqdm  # For progress bar
+
 
 # Configure options as a dictionary
 options = {
@@ -18,6 +27,7 @@ options = {
     'SmoothFWHM': 0,  # Smoothing parameter
     'use_oldnorm': 0  # Use SPM5 or SPM12 spatial normalization
 }
+
 
 # Directory containing original nifti files
 input_dir = r'C:\Users\deatsch\Documents\MATLAB\qtni_input'

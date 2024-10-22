@@ -203,7 +203,7 @@ def AI_whole_brain(flat_data, left_mask, right_mask):
 
 
 #--------------------------------------------------------------------------------------------------------------#
-#                                        TEST-RETEST FUNCTIONS                                                 #
+#                                     TEST-RETEST REPEATABILITY FUNCTIONS                                      #
 #--------------------------------------------------------------------------------------------------------------#
 
 # relative difference
@@ -239,7 +239,45 @@ def sigma_between(m1_array, m2_array):
 # interclass correlation coefficient
 def f_ICC(sigma, sigma_b): 
     return sigma_b ** 2 / (sigma_b ** 2 + sigma ** 2)
-    
+
+
+#--------------------------------------------------------------------------------------------------------------#
+#                        Using the test-retest repeatability function on my datasets                           #
+#--------------------------------------------------------------------------------------------------------------#
+
+def calculate_RD(AI_first, AI_second):
+    RD_array = []
+    for i in range(len(AI_first)):
+        RD = f_RD(AI_first[i], AI_second[i])
+        RD_array.append(float(RD))
+    return RD_array
+
+
+def calculate_CV(AI_first, AI_second):
+    CV_array = []
+    within_subject_std = sigma_within(AI_first, AI_second)
+    population_mean = population_mu(AI_first, AI_second)
+    for i in range(len(AI_first)):
+        CV = f_CV(within_subject_std[i], population_mean)
+        CV_array.append(float(CV))
+    return CV_array
+
+
+def calculate_ICC(AI_first, AI_second):
+    ICC_array = []
+    sigma_b = sigma_between(AI_first, AI_second)      # between sigma
+    sigma_array = sigma_within(AI_first, AI_second)   # within sigma
+    for sigma in sigma_array:
+        ICC = f_ICC(sigma, sigma_b)
+        ICC_array.append(float(ICC))
+    return ICC_array
+
+
+
+#--------------------------------------------------------------------------------------------------------------#
+#                                   TEST-RETEST REPRODUCIBILITY FUNCTIONS                                      #
+#--------------------------------------------------------------------------------------------------------------#
+
 # bias 
 def f_bias(m1_array, m2_array):
     diff_array = []
@@ -252,26 +290,3 @@ def f_bias(m1_array, m2_array):
 def f_loa(bias, sigma):
     loa = [bias + 1.96 * np.sqrt(sigma), bias - 1.96 * np.sqrt(sigma)]
     return loa
-
-
-#--------------------------------------------------------------------------------------------------------------#
-#                           Using the test-retest function on my datasets                                      #
-#--------------------------------------------------------------------------------------------------------------#
-
-def calculate_RD(AI_first, AI_second):
-    RD_array = []
-    for i in range(len(AI_first)):
-        RD = f_RD(AI_first[i], AI_second[i])
-        RD_array.append(RD)
-    return RD_array
-
-
-def calculate_CV(AI_first, AI_second):
-    CV_array = []
-    within_subject_std = sigma_within(AI_first, AI_second)
-    population_mean = population_mu(AI_first, AI_second)
-    for i in range(len(AI_first)):
-        CV = f_CV(within_subject_std[i], population_mean)
-        CV_array.append(CV)
-    
-

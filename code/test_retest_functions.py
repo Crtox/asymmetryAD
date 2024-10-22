@@ -173,3 +173,31 @@ def mask_hemispheres(mask_path, mask_txt_file):
     left_hemisphere_mask = left_hemisphere_mask.flatten()   
     right_hemisphere_mask = right_hemisphere_mask.flatten()
     return left_hemisphere_mask, right_hemisphere_mask
+
+
+
+#--------------------------------------------------------------------------------------------------------------#
+#                          Function to calculate the AI of the whole brain ROI                                 #
+#--------------------------------------------------------------------------------------------------------------#
+
+# takes already prepared flattened, normalized array of .nii data and flattened left/right masks
+def AI_whole_brain(flat_data, left_mask, right_mask):
+    # array with lenght of number of scans/patients 
+    AI_array = []
+    # number of scans/patients
+    num_patients = flat_data.shape[1]
+    for i in range(num_patients):
+        # Extract the intensity values for the left and right hemispheres using the flattened masks
+        left_hemisphere_intensity = flat_data[:, i][left_mask == 1]
+        right_hemisphere_intensity = flat_data[:, i][right_mask == 1]
+        # Calculate the mean of intensity for the left and right hemispheres
+        mean_left = np.mean(left_hemisphere_intensity)
+        mean_right = np.mean(right_hemisphere_intensity)
+        # Calculate the asymmetry index (AI) for this patient
+        if mean_left + mean_right != 0:       # Avoid division by zero
+            AI = 100 * (mean_left - mean_right) / (mean_left + mean_right)
+        else:
+            AI = 0    
+        AI_array.append(float(AI))
+    return AI_array
+

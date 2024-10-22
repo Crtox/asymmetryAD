@@ -201,3 +201,77 @@ def AI_whole_brain(flat_data, left_mask, right_mask):
         AI_array.append(float(AI))
     return AI_array
 
+
+#--------------------------------------------------------------------------------------------------------------#
+#                                        TEST-RETEST FUNCTIONS                                                 #
+#--------------------------------------------------------------------------------------------------------------#
+
+# relative difference
+def f_RD(m1, m2):
+    return 100 * (m2 - m1) / ((m1 + m2)/2)
+
+# coefficient of variation
+def f_CV(sigma, mu):
+    return 100 * sigma / mu 
+
+# within subject variation
+def sigma_within(m1_array, m2_array):
+    within_subject_stds = []
+    for i in range(len(m1_array)):
+        std = np.std([m1_array[i], m2_array[i]])
+        within_subject_stds.append(std)
+    return within_subject_stds
+
+# population average
+def population_mu(m1_array, m2_array):
+    return np.mean(m1_array + m2_array)
+
+# between subject variation
+def sigma_between(m1_array, m2_array):
+    averages = []
+    for i in range(len(m1_array)):
+        avg = np.mean([m1_array[i], m2_array[i]])
+        averages.append(avg)
+    between_subject_std = np.std(averages)
+    return between_subject_std
+
+
+# interclass correlation coefficient
+def f_ICC(sigma, sigma_b): 
+    return sigma_b ** 2 / (sigma_b ** 2 + sigma ** 2)
+    
+# bias 
+def f_bias(m1_array, m2_array):
+    diff_array = []
+    for i in range(len(m1_array)):
+        diff_array.append(m2_array[i] - m1_array[i])
+    bias = np.mean(diff_array)
+    return bias
+
+# limits of agreement
+def f_loa(bias, sigma):
+    loa = [bias + 1.96 * np.sqrt(sigma), bias - 1.96 * np.sqrt(sigma)]
+    return loa
+
+
+#--------------------------------------------------------------------------------------------------------------#
+#                           Using the test-retest function on my datasets                                      #
+#--------------------------------------------------------------------------------------------------------------#
+
+def calculate_RD(AI_first, AI_second):
+    RD_array = []
+    for i in range(len(AI_first)):
+        RD = f_RD(AI_first[i], AI_second[i])
+        RD_array.append(RD)
+    return RD_array
+
+
+def calculate_CV(AI_first, AI_second):
+    CV_array = []
+    within_subject_std = sigma_within(AI_first, AI_second)
+    population_mean = population_mu(AI_first, AI_second)
+    for i in range(len(AI_first)):
+        CV = f_CV(within_subject_std[i], population_mean)
+        CV_array.append(CV)
+    
+

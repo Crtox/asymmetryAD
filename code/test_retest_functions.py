@@ -116,8 +116,6 @@ def separate_scans(files):
     return first_scans, second_scans
 
 
-
-
 #--------------------------------------------------------------------------------------------------------------#
 #              Function to prepare patient data: flatten 3D array to 1D and normalize by intensity             #
 #--------------------------------------------------------------------------------------------------------------#

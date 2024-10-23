@@ -178,6 +178,75 @@ def mask_hemispheres(mask_path, mask_txt_file, flatten=True):
 
 
 #--------------------------------------------------------------------------------------------------------------#
+#         Function to extracts different ROIs of mask (temporal, frontal lobe and hippocampus for now)         #
+#--------------------------------------------------------------------------------------------------------------#
+
+# ALERT: TERRIBLE CODE
+def mask_regions(maskPath):
+    # loading the mask
+    mask = nib.load(maskPath + 'AAL3+pons.nii')
+    mask = mask.get_fdata()
+    # loading the masks titles
+    masks_title_all = mask_roi_titles(maskPath + 'AAL3+pons.txt')[0]
+    # ROI prefixes
+    frontal_prefix = 'Frontal'
+    temporal_prefix = 'Temporal'
+    hippo_prefix = 'Hippocampus'
+    # left and right prefixes
+    L_prefix = 'L'
+    R_prefix = 'R'
+    # empty dictionaries to store roi names and indexes
+    L_frontal_lobe = {}
+    R_frontal_lobe = {}
+    L_temporal_lobe = {}
+    R_temporal_lobe = {}
+    L_hippocampus = {}
+    R_hippocampus = {}
+    # iterating and adding to dictionaries
+    for idx, title in enumerate(masks_title_all):
+        if frontal_prefix in title and L_prefix in title:
+            L_frontal_lobe[title] = idx
+        if frontal_prefix in title and R_prefix in title:
+            R_frontal_lobe[title] = idx
+        elif temporal_prefix in title and L_prefix in title:
+            L_temporal_lobe[title] = idx
+        elif temporal_prefix in title and R_prefix in title:
+            R_temporal_lobe[title] = idx
+        elif hippo_prefix in title and L_prefix in title:
+            L_hippocampus[title] = idx
+        elif hippo_prefix in title and R_prefix in title:
+            R_hippocampus[title] = idx
+    # empty arrays, to be masks or ROI, same shape as mask
+    mask_L_frontal_lobe = np.zeros_like(mask, dtype=bool)
+    mask_L_temporal_lobe = np.zeros_like(mask, dtype=bool)
+    mask_R_frontal_lobe = np.zeros_like(mask, dtype=bool)
+    mask_R_temporal_lobe = np.zeros_like(mask, dtype=bool)
+    mask_L_hippocampus = np.zeros_like(mask, dtype=bool)
+    mask_R_hippocampus = np.zeros_like(mask, dtype=bool)
+    # creating ROI masks
+    for i in range(len(np.unique(mask))):
+        for idx in L_frontal_lobe.values():
+            if i == idx:
+                mask_L_frontal_lobe |= (mask == i)
+        for idx in R_frontal_lobe.values():
+             if i == idx:
+                mask_R_frontal_lobe |= (mask == i)
+        for idx in L_temporal_lobe.values():
+            if i == idx:
+                mask_L_temporal_lobe |= (mask == i)
+        for idx in R_temporal_lobe.values():
+            if i == idx:
+                mask_R_temporal_lobe |= (mask == i)
+        for idx in L_hippocampus.values():
+            if i == idx:
+                mask_L_hippocampus |= (mask == i)
+        for idx in R_hippocampus.values():
+            if i == idx:
+                mask_R_hippocampus |= (mask == i)
+    return mask_L_frontal_lobe, mask_R_frontal_lobe, mask_L_temporal_lobe, mask_R_temporal_lobe, mask_L_hippocampus, mask_R_hippocampus,
+
+
+#--------------------------------------------------------------------------------------------------------------#
 #                          Function to calculate the AI of the whole brain ROI                                 #
 #--------------------------------------------------------------------------------------------------------------#
 

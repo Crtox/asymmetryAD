@@ -222,6 +222,10 @@ def sigma_within(m1_array, m2_array):
         within_subject_stds.append(std)
     return within_subject_stds
 
+# average of two measurments
+def f_mu(m1, m2):
+    return (m1 + m2) / 2
+
 # population average
 def population_mu(m1_array, m2_array):
     return np.mean(m1_array + m2_array)
@@ -256,9 +260,9 @@ def calculate_RD(AI_first, AI_second):
 def calculate_CV(AI_first, AI_second):
     CV_array = []
     within_subject_std = sigma_within(AI_first, AI_second)
-    population_mean = population_mu(AI_first, AI_second)
     for i in range(len(AI_first)):
-        CV = f_CV(within_subject_std[i], population_mean)
+        mean = f_mu(AI_first[i], AI_second[i])
+        CV = f_CV(within_subject_std[i], mean)
         CV_array.append(float(CV))
     return CV_array
 

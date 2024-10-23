@@ -182,7 +182,7 @@ def mask_hemispheres(mask_path, mask_txt_file, flatten=True):
 #--------------------------------------------------------------------------------------------------------------#
 
 # ALERT: TERRIBLE CODE
-def mask_regions(maskPath):
+def mask_regions(maskPath, flatten=True):
     # loading the mask
     mask = nib.load(maskPath + 'AAL3+pons.nii')
     mask = mask.get_fdata()
@@ -218,8 +218,8 @@ def mask_regions(maskPath):
             R_hippocampus[title] = idx
     # empty arrays, to be masks or ROI, same shape as mask
     mask_L_frontal_lobe = np.zeros_like(mask, dtype=bool)
-    mask_L_temporal_lobe = np.zeros_like(mask, dtype=bool)
     mask_R_frontal_lobe = np.zeros_like(mask, dtype=bool)
+    mask_L_temporal_lobe = np.zeros_like(mask, dtype=bool)
     mask_R_temporal_lobe = np.zeros_like(mask, dtype=bool)
     mask_L_hippocampus = np.zeros_like(mask, dtype=bool)
     mask_R_hippocampus = np.zeros_like(mask, dtype=bool)
@@ -229,7 +229,7 @@ def mask_regions(maskPath):
             if i == idx:
                 mask_L_frontal_lobe |= (mask == i)
         for idx in R_frontal_lobe.values():
-             if i == idx:
+            if i == idx:
                 mask_R_frontal_lobe |= (mask == i)
         for idx in L_temporal_lobe.values():
             if i == idx:
@@ -243,15 +243,22 @@ def mask_regions(maskPath):
         for idx in R_hippocampus.values():
             if i == idx:
                 mask_R_hippocampus |= (mask == i)
-    return mask_L_frontal_lobe, mask_R_frontal_lobe, mask_L_temporal_lobe, mask_R_temporal_lobe, mask_L_hippocampus, mask_R_hippocampus,
+    if flatten: 
+        mask_L_frontal_lobe = mask_L_frontal_lobe.flatten()
+        mask_R_frontal_lobe = mask_R_frontal_lobe.flatten() 
+        mask_L_temporal_lobe = mask_L_temporal_lobe.flatten()
+        mask_R_temporal_lobe = mask_R_temporal_lobe.flatten() 
+        mask_L_hippocampus = mask_L_hippocampus.flatten() 
+        mask_R_hippocampus = mask_R_hippocampus.flatten() 
+    return mask_L_frontal_lobe, mask_R_frontal_lobe, mask_L_temporal_lobe, mask_R_temporal_lobe, mask_L_hippocampus, mask_R_hippocampus
 
 
 #--------------------------------------------------------------------------------------------------------------#
-#                          Function to calculate the AI of the whole brain ROI                                 #
+#                      Function to calculate the AI of the whole brain ROI or separate ROI                     #
 #--------------------------------------------------------------------------------------------------------------#
 
 # takes already prepared flattened, normalized array of .nii data and flattened left/right masks
-def AI_whole_brain(flat_data, left_mask, right_mask):
+def calculate_AI(flat_data, left_mask, right_mask):
     # array with lenght of number of scans/patients 
     AI_array = []
     # number of scans/patients
@@ -278,7 +285,10 @@ def AI_whole_brain(flat_data, left_mask, right_mask):
 
 # relative difference
 def f_RD(m1, m2):
-    return 100 * (m2 - m1) / ((m1 + m2)/2)
+    if (m1 + m2) != 0:
+        return 100 * (m2 - m1) / ((m1 + m2)/2)
+    else:
+        return 0
 
 # coefficient of variation
 def f_CV(sigma, mu):

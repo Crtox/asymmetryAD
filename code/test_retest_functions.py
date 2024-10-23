@@ -154,7 +154,7 @@ def mask_roi_titles(mask_txt_file):
     return masks_title_all, masks_title_L, masks_title_R
 
 
-def mask_hemispheres(mask_path, mask_txt_file):
+def mask_hemispheres(mask_path, mask_txt_file, flatten=True):
     mask = nib.load(mask_path)                       # loading mask
     mask = mask.get_fdata()                          # extracting data
     # initializing empty arrays
@@ -170,8 +170,9 @@ def mask_hemispheres(mask_path, mask_txt_file):
         else:
             right_hemisphere_mask |= (mask == i)     # summing together all right regions
     # flattening the arrays
-    left_hemisphere_mask = left_hemisphere_mask.flatten()   
-    right_hemisphere_mask = right_hemisphere_mask.flatten()
+    if flatten:
+        left_hemisphere_mask = left_hemisphere_mask.flatten()   
+        right_hemisphere_mask = right_hemisphere_mask.flatten()
     return left_hemisphere_mask, right_hemisphere_mask
 
 

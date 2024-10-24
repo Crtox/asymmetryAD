@@ -402,3 +402,14 @@ def calculate_LOA(m1_array, m2_array):
     rc = calculate_RC(m1_array, m2_array)
     loa = [mean + rc, mean -rc]
     return loa
+
+
+# response to repeatability ratio (R/R): the percentege of scan-pairs whose change between two timepoints fall outside of LOA.
+def calculate_RR(m1_array, m2_array):
+    diffs = calculate_diffs(m1_array, m2_array)
+    LOA = calculate_LOA(m1_array, m2_array)
+    N = len(diffs)
+    outsiders = [(diff > LOA[0]) or (diff < LOA[1]) for diff in diffs]
+    count_outsiders = np.sum(outsiders) 
+    RR = 100 * count_outsiders / N        # in percentages
+    return RR

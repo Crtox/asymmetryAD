@@ -362,12 +362,43 @@ def calculate_ICC(AI_first, AI_second):
 #                                   TEST-RETEST REPRODUCIBILITY FUNCTIONS                                      #
 #--------------------------------------------------------------------------------------------------------------#
 
+# means
+def calculate_means(AI_first, AI_second):
+    means_array = []
+    for i in range(len(AI_first)):
+        mean = f_mu(AI_first[i], AI_second[i])
+        means_array.append(mean)
+    return means_array
+
+
+# difference
+def f_diff(m1, m2):
+    return m2 - m1
+
+# differences array
+def calculate_diffs(m1_array, m2_array):
+    diffs_array = []
+    for i in range(len(m1_array)):
+        diff = f_diff(m2_array[i] - m1_array[i])
+        diffs_array.append(diff)             
+    return diffs_array      
+
+
+# repeatability coefficient (1.96*std), will be used to plot repeatability coefficient 
+def calculate_RC(m1_array, m2_array):
+    diffs = calculate_diffs(m1_array, m2_array)
+    return 1.96*np.std(diffs)
+
+# mean difference will be plotted as solid horizontal line on Bland-Altman plots
+def calculate_mean(m1_array, m2_array):
+    diffs_array = calculate_diffs(m1_array, m2_array)
+    mu = np.mean(diffs_array)
+    return mu
+                                                                    
 # bias 
 def f_bias(m1_array, m2_array):
-    diff_array = []
-    for i in range(len(m1_array)):
-        diff_array.append(m2_array[i] - m1_array[i])
-    bias = np.mean(diff_array)
+    diffs_array = calculate_diffs(m1_array, m2_array)
+    bias = np.mean(diffs_array)
     return bias
 
 # limits of agreement

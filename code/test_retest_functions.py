@@ -397,6 +397,8 @@ def calculate_mean(m1_array, m2_array):
                                                                     
 
 # limits of agreement
-def calculate_LOA(mean, rc):
+def calculate_LOA(m1_array, m2_array):
+    mean = calculate_mean(m1_array, m2_array)
+    rc = calculate_RC(m1_array, m2_array)
     loa = [mean + rc, mean -rc]
     return loa

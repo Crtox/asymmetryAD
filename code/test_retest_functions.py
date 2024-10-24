@@ -379,7 +379,7 @@ def f_diff(m1, m2):
 def calculate_diffs(m1_array, m2_array):
     diffs_array = []
     for i in range(len(m1_array)):
-        diff = f_diff(m2_array[i] - m1_array[i])
+        diff = f_diff(m1_array[i], m2_array[i])
         diffs_array.append(diff)             
     return diffs_array      
 
@@ -395,13 +395,8 @@ def calculate_mean(m1_array, m2_array):
     mu = np.mean(diffs_array)
     return mu
                                                                     
-# bias 
-def f_bias(m1_array, m2_array):
-    diffs_array = calculate_diffs(m1_array, m2_array)
-    bias = np.mean(diffs_array)
-    return bias
 
 # limits of agreement
-def f_loa(bias, sigma):
-    loa = [bias + 1.96 * np.sqrt(sigma), bias - 1.96 * np.sqrt(sigma)]
+def calculate_LOA(mean, rc):
+    loa = [mean + rc, mean -rc]
     return loa

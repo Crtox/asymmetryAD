@@ -3,12 +3,16 @@
 import pandas as pd
 import os 
 import re
+from collections import defaultdict
 
-alzdPath = './NACC_data/sorted_preprocessed_cohorts/0csv/alzd.csv'
+csvPath = './NACC_data/sorted_preprocessed_cohorts/0csv/alzd.csv'
+cohortPath = './NACC_data/sorted_preprocessed_cohorts/ALZD/'
 
-df = pd.read_csv(alzdPath)
+
+fspgr_folders = defaultdict(list)
+mprage_folders = defaultdict(list)
+# reading the .csv file
+df = pd.read_csv(csvPath)
+# separating based on sequencing
 df_fspgr = df[df['FSPGR'] == 1]
 df_mprage = df[df['MPRAGE'] == 1]
-fspgr_files = [row['NACCMRFI'] for idx, row in df_fspgr.iterrows()]
-mprage_files = [row['NACCMRFI'] for idx, row in df_mprage.iterrows()]
-    

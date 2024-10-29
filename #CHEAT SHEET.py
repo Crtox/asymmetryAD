@@ -117,7 +117,7 @@ print(sorted(studenti_niz, key=sortirna1))
 
 studenti_niz = [("John", "A", 15), ("Jane", "B", 12), ("Dave", "B", 12)]
 for x in studenti_niz:
-    studenti_niz.sort(key = lambda x: (-x[2], x[0]))         #uredi padajoce po tockah, ce mata dva isto tock, uredi po imenih po abecedi
+    studenti_niz.sort(key =  x: (-x[2], x[0]))         #uredi padajoce po tockah, ce mata dva isto tock, uredi po imenih po abecedi
 print(studenti_niz)
 
 #NABORI
@@ -224,7 +224,7 @@ for drzava in slovar_piv:
         alko = slovar_piv[drzava][ime][1]
         sez.append((ime, drzava, alko, cena))
         #print(sez)
-sez.sort(key=lambda sez: (-sez[3], sez[0], sez[2], sez[1]))       #prvo uredi po cenah padajoce, ce je iste cene po imenu, isto ime po alko in isto alko po drzavi. NE SPREMENI VRSTNEGA REDA ZAPISA V SEZNAMU,
+sez.sort(key= sez: (-sez[3], sez[0], sez[2], sez[1]))       #prvo uredi po cenah padajoce, ce je iste cene po imenu, isto ime po alko in isto alko po drzavi. NE SPREMENI VRSTNEGA REDA ZAPISA V SEZNAMU,
 print(sez)                                                        #vrstni red ostane isto kot smo dobili pri sez.append((ime, drzava, alko, cena))
 
 
@@ -256,8 +256,8 @@ print(np.ones((2,2)))
 print(np.linspace(1, 10, 10))    #koliko delilnih tock
 print(np.arange(1, 11, 1))       #s kolikšnim korakom
 
-print(np.fromfunction(lambda i, j : i + j, (5, 5)))      #vsota indeksov, fromfunction uporabi podano funkcijo na celi tabeli, zraven podas se obliko (dim1, dim2)
-print(np.fromfunction(lambda i, j: i, (5,5)))
+print(np.fromfunction( i, j : i + j, (5, 5)))      #vsota indeksov, fromfunction uporabi podano funkcijo na celi tabeli, zraven podas se obliko (dim1, dim2)
+print(np.fromfunction( i, j: i, (5,5)))
 
 a = np.array([[1, 2, 3, 4, 5], [5, 6, 7, 8, 3]])         #mora bit isto število elementov v arrayu ki ga sprejme in pri reshape
 print(a.reshape(5, 2))

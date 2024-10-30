@@ -96,13 +96,16 @@ def time_from_baseline(csv_path):
         months = [row['MRIMO'] for idx, row in patient_data.iterrows()]
         days = [row['MRIDY'] for idx, row in patient_data.iterrows()]
         years = [row['MRIYR'] for idx, row in patient_data.iterrows()]
+        # array to store differences 
+        diffs = []
         # array to store dates
         dates = np.zeros(len(months), dtype=object)
         for i in range(len(months)):
             dates[i] = ('{}-{}-{}'.format(years[i], months[i], days[i]))
             dates[i] = parser.parse(dates[i])
-        # calculating time differences between scans
-        diffs = [(dates[i] - dates[0]) for i in dates]
+        for i in range(len(dates)):
+            # substracting and dividing by average days in a year
+            diffs.append((dates[i] - dates[0]).days / 365.25)
         # adding to array
-        patient_scan_dates[naccid].append(diffs)
+        patient_scan_dates[naccid] = diffs
     return patient_scan_dates

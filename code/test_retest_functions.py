@@ -280,6 +280,28 @@ def calculate_AI(flat_data, left_mask, right_mask):
 
 
 #--------------------------------------------------------------------------------------------------------------#
+#                     Function to normalize AI values by value of AI at baseline (first scan)                  #
+#--------------------------------------------------------------------------------------------------------------#
+
+# takes in 2 arrays of AI values, first array values at first scan, second at second
+def normalize_AI(AI_first_scan, AI_second_scan):
+    AI_first_scan_normalized = []
+    AI_second_scan_normalized = []
+    for i in range(len(AI_first_scan)):
+        # avoid division by 0
+        if AI_first_scan[i] != 0: 
+            # all the values at first scan will be 1
+            AI_first_scan_normalized.append(AI_first_scan[i] / AI_first_scan[i])
+            # the values at second scan are divided by corresponding value at first scan
+            AI_second_scan_normalized.append(AI_second_scan[i] / AI_first_scan[i])
+        else:
+            AI_first_scan_normalized.append(1)
+            # the values at second scan are divided by corresponding value at first scan
+            AI_second_scan_normalized.append(1)
+    return AI_first_scan_normalized, AI_second_scan_normalized
+
+
+#--------------------------------------------------------------------------------------------------------------#
 #                                     TEST-RETEST REPEATABILITY FUNCTIONS                                      #
 #--------------------------------------------------------------------------------------------------------------#
 

@@ -136,6 +136,20 @@ def flatten_and_normalize(nii_files, mask=False):
     return normalized_flat_nii_files
 
 
+# the normalizing in flatten_and_normalize function might be wrong, so I will do it again without normalization
+def flatten(nii_files):
+    flat_nii_files = []                 # array to store flattened files
+    for nii_file in nii_files:
+        img = nib.load(nii_file) 
+        img_data = img.get_fdata()       # extracting data
+        img_1d = img_data.flatten()      # flattening array
+        flat_nii_files.append(img_1d)
+    # transform into numpy array, where each column is patients data
+    flat_nii_files = np.column_stack(flat_nii_files)
+    # no need to normalize if we are dealing with mask
+    return flat_nii_files
+
+
 
 #--------------------------------------------------------------------------------------------------------------#
 #              Function to extract mask region names and function to get whole hemispheres as ROI              #

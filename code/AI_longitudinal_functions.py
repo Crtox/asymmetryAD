@@ -138,7 +138,27 @@ def flatten_and_normalize_across_all(nii_dictionary):
         normalized_images = stacked_images / total_sum
         normalized_flat_nii_files[naccid] = normalized_images
     return normalized_flat_nii_files
-            
+
+
+# the normalization part might be wrong, so again without normalization
+def flatten(nii_dictionary):
+    # flatten all images and calculate the global sum
+    flat_nii_files = defaultdict(list)
+    # flatten images and calculate the total sum
+    for naccid, file_paths in nii_dictionary.items():
+        for nii_file in file_paths:
+            img = nib.load(nii_file)
+            img_data = img.get_fdata()
+            img_1d = img_data.flatten()
+            flat_nii_files[naccid].append(img_1d)
+    # stack and normalize each NACCID’s images using the global sum
+    flat_nii_files_stacked = {}
+    for naccid, images_array in flat_nii_files.items():
+        # stacking in columns
+        stacked_images = np.column_stack(images_array)
+        # normalizing
+        flat_nii_files_stacked[naccid] = stacked_images
+    return flat_nii_files_stacked
 
 
 #--------------------------------------------------------------------------------------------------------------#

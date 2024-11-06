@@ -316,7 +316,7 @@ def normalize_AI(AI_first_scan, AI_second_scan):
 
 
 #--------------------------------------------------------------------------------------------------------------#
-#                                     TEST-RETEST REPEATABILITY FUNCTIONS                                      #
+#                                     TEST-RETEST FUNCTIONS                                    #
 #--------------------------------------------------------------------------------------------------------------#
 
 # relative difference
@@ -330,21 +330,9 @@ def f_RD(m1, m2):
 def f_CV(sigma, mu):
     return 100 * sigma / mu 
 
-# within subject variation
-def sigma_within(m1_array, m2_array):
-    within_subject_stds = []
-    for i in range(len(m1_array)):
-        std = np.std([m1_array[i], m2_array[i]])
-        within_subject_stds.append(std)
-    return within_subject_stds
-
 # average of two measurments
 def f_mu(m1, m2):
     return (m1 + m2) / 2
-
-# population average
-def population_mu(m1_array, m2_array):
-    return np.mean(m1_array + m2_array)
 
 # between subject variation
 def sigma_between(m1_array, m2_array):
@@ -355,11 +343,9 @@ def sigma_between(m1_array, m2_array):
     between_subject_std = np.std(averages)
     return between_subject_std
 
-
-# interclass correlation coefficient
-def f_ICC(sigma, sigma_b): 
-    return sigma_b ** 2 / (sigma_b ** 2 + sigma ** 2)
-
+# difference
+def f_diff(m1, m2):
+    return m2 - m1
 
 #--------------------------------------------------------------------------------------------------------------#
 #                        Using the test-retest repeatability function on my datasets                           #
@@ -373,31 +359,6 @@ def calculate_RD(AI_first, AI_second):
     return RD_array
 
 
-def calculate_CV(AI_first, AI_second):
-    CV_array = []
-    within_subject_std = sigma_within(AI_first, AI_second)
-    for i in range(len(AI_first)):
-        mean = f_mu(AI_first[i], AI_second[i])
-        CV = f_CV(within_subject_std[i], mean)
-        CV_array.append(float(CV))
-    return CV_array
-
-
-def calculate_ICC(AI_first, AI_second):
-    ICC_array = []
-    sigma_b = sigma_between(AI_first, AI_second)      # between sigma
-    sigma_array = sigma_within(AI_first, AI_second)   # within sigma
-    for sigma in sigma_array:
-        ICC = f_ICC(sigma, sigma_b)
-        ICC_array.append(float(ICC))
-    return ICC_array
-
-
-
-#--------------------------------------------------------------------------------------------------------------#
-#                                   TEST-RETEST REPRODUCIBILITY FUNCTIONS                                      #
-#--------------------------------------------------------------------------------------------------------------#
-
 # means
 def calculate_means(AI_first, AI_second):
     means_array = []
@@ -406,10 +367,6 @@ def calculate_means(AI_first, AI_second):
         means_array.append(mean)
     return means_array
 
-
-# difference
-def f_diff(m1, m2):
-    return m2 - m1
 
 # differences array
 def calculate_diffs(m1_array, m2_array):
@@ -420,10 +377,43 @@ def calculate_diffs(m1_array, m2_array):
     return diffs_array      
 
 
+# Coefficient of variation
+def calculate_CV(AI_first, AI_second):
+    AI_all = AI_first + AI_second
+    mu = np.mean(AI_all)
+    vars = []
+    for i in range(len(AI_first)):
+        avg = (AI_first[i] + AI_second[i]) / 2
+        var = (AI_first[i] - avg) ** 2 + (AI_second[i] - avg) ** 2
+        vars.append(var)
+    sigma_within = np.sqrt(np.mean(vars))
+    CV = 100 * sigma_within / mu
+    return CV
+
+
+# Interclass correlation coefficient
+def calculate_ICC(AI_first, AI_second):
+    AI_all = AI_first + AI_second
+    mu = np.mean(AI_all)
+    subs = []
+    vars = []
+    for i in range(len(AI_first)):
+        avg = (AI_first[i] + AI_second[i]) / 2
+        sub = (avg - mu) ** 2
+        subs.append(sub)
+        var = (AI_first[i] - avg) ** 2 + (AI_second[i] - avg) ** 2
+        vars.append(var)
+    sigma_w = np.sqrt(np.mean(vars))
+    sigma_b = np.sqrt(np.sum(subs) / (len(AI_first) - 1))
+    ICC = sigma_b ** 2 / (sigma_b ** 2 + sigma_w ** 2)
+    return ICC
+
+
 # repeatability coefficient (1.96*std), will be used to plot repeatability coefficient 
 def calculate_RC(m1_array, m2_array):
     diffs = calculate_diffs(m1_array, m2_array)
     return 1.96*np.std(diffs)
+
 
 # mean difference will be plotted as solid horizontal line on Bland-Altman plots
 def calculate_mean(m1_array, m2_array):

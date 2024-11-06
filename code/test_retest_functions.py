@@ -378,35 +378,51 @@ def calculate_diffs(m1_array, m2_array):
 
 
 # Coefficient of variation
+# def calculate_CV(AI_first, AI_second):
+#     AI_all = AI_first + AI_second
+#     mu = np.mean(AI_all)
+#     vars = []
+#     for i in range(len(AI_first)):
+#         avg = (AI_first[i] + AI_second[i]) / 2
+#         var = (AI_first[i] - avg) ** 2 + (AI_second[i] - avg) ** 2
+#         vars.append(var)
+#     sigma_within = np.sqrt(np.mean(vars))
+#     CV = 100 * sigma_within / mu
+#     return CV
+
 def calculate_CV(AI_first, AI_second):
     AI_all = AI_first + AI_second
     mu = np.mean(AI_all)
-    vars = []
-    for i in range(len(AI_first)):
-        avg = (AI_first[i] + AI_second[i]) / 2
-        var = (AI_first[i] - avg) ** 2 + (AI_second[i] - avg) ** 2
-        vars.append(var)
-    sigma_within = np.sqrt(np.mean(vars))
+    diffs = calculate_diffs(AI_first, AI_second)
+    sigma_within = np.std(diffs)
     CV = 100 * sigma_within / mu
     return CV
 
 
 # Interclass correlation coefficient
+# def calculate_ICC(AI_first, AI_second):
+#     AI_all = AI_first + AI_second
+#     mu = np.mean(AI_all)
+#     subs = []
+#     vars = []
+#     for i in range(len(AI_first)):
+#         avg = (AI_first[i] + AI_second[i]) / 2
+#         sub = (avg - mu) ** 2
+#         subs.append(sub)
+#         var = (AI_first[i] - avg) ** 2 + (AI_second[i] - avg) ** 2
+#         vars.append(var)
+#     sigma_w = np.sqrt(np.mean(vars))
+#     sigma_b = np.sqrt(np.sum(subs) / (len(AI_first) - 1))
+#     ICC = sigma_b ** 2 / (sigma_b ** 2 + sigma_w ** 2)
+#     return ICC
+
 def calculate_ICC(AI_first, AI_second):
-    AI_all = AI_first + AI_second
-    mu = np.mean(AI_all)
-    subs = []
-    vars = []
-    for i in range(len(AI_first)):
-        avg = (AI_first[i] + AI_second[i]) / 2
-        sub = (avg - mu) ** 2
-        subs.append(sub)
-        var = (AI_first[i] - avg) ** 2 + (AI_second[i] - avg) ** 2
-        vars.append(var)
-    sigma_w = np.sqrt(np.mean(vars))
-    sigma_b = np.sqrt(np.sum(subs) / (len(AI_first) - 1))
+    diffs = calculate_diffs(AI_first, AI_second)
+    sigma_w = np.std(diffs)
+    sigma_b = sigma_between(AI_first, AI_second)
     ICC = sigma_b ** 2 / (sigma_b ** 2 + sigma_w ** 2)
     return ICC
+    
 
 
 # repeatability coefficient (1.96*std), will be used to plot repeatability coefficient 

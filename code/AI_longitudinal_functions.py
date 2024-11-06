@@ -159,7 +159,7 @@ def flatten(nii_dictionary):
         # normalizing
         flat_nii_files_stacked[naccid] = stacked_images
     return flat_nii_files_stacked
-
+#produces the same results...
 
 #--------------------------------------------------------------------------------------------------------------#
 #              Function to extract mask region names and function to get whole hemispheres as ROI              #

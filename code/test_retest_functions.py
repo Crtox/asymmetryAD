@@ -145,9 +145,9 @@ def flatten(nii_files):
         img_1d = img_data.flatten()      # flattening array
         flat_nii_files.append(img_1d)
     # transform into numpy array, where each column is patients data
-    flat_nii_files = np.column_stack(flat_nii_files)
+    flat_nii_files_stacked = np.column_stack(flat_nii_files)
     # no need to normalize if we are dealing with mask
-    return flat_nii_files
+    return flat_nii_files_stacked
 
 
 

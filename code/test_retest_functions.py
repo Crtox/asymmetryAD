@@ -325,6 +325,13 @@ def f_RD(m1, m2):
         return 100 * (m2 - m1) / ((m1 + m2)/2)
     else:
         return 0
+    
+# relative difference not in percentages
+def f_RD_no(m1, m2):
+    if (m1 + m2) != 0:
+        return (m2 - m1) / ((m1 + m2)/2)
+    else:
+        return 0
 
 # coefficient of variation
 def f_CV(sigma, mu):
@@ -358,6 +365,16 @@ def calculate_RD(AI_first, AI_second):
         RD_array.append(float(RD))
     return RD_array
 
+# LOA_percentage
+def calculate_LOA_p(AI_first, AI_second):
+    RD_array = []
+    for i in range(len(AI_first)):
+        RD = f_RD_no(AI_first[i], AI_second[i])
+        RD_array.append(float(RD))
+    mean_RD = np.mean(RD_array)
+    std_RD = np.std(RD_array)
+    LOA_p = [(mean_RD + 1.96*std_RD), (mean_RD - 1.96*std_RD)]
+    return LOA_p
 
 # means
 def calculate_means(AI_first, AI_second):

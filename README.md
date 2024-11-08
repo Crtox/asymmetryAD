@@ -29,7 +29,20 @@
 ```bash
 asymmetryAD/
 │
-├── code/                            # Python scripts for calculation, sorting and analyzing data
-├── data/                            # .csv and .txt files for storing info about patients
+├── code/                            # Python scripts for calculation, sorting and analyzing 
 ├── results/                         # Output files and results of experiments
 └── README.md                        # This file!
+
+Repository Explanation:
+Inside of code/ repository you can find all the code I've written. Main scripts are:
+   - AI_longitudinal: man script for all my longitudinal analysis
+   - AI_longitudinal_functions: all the functions called and used in AI_longitudinal script
+   - test_retest: main script for the test-retest study
+   - test_retest_functions: functions used and called in test_retest script
+   - NACC_data_sorting: scripts for sorting the dataset from NACC (not important for you)
+
+Inside of results/ repository you can find different plots, results and .csv files I produced with my code scripts. Main results folder are:
+   - NACC_data_sorting: look at final folder, inside are 4 .csv files that contain info on    
+     patients' scans in cohorts of data I worked with in longitudinal analysis
+   - AI_longitudinal: you can find plots from longitudinal analysis here
+   - test_retest: you can find plots from test-retest study here

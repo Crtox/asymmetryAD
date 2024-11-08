@@ -33,7 +33,7 @@ asymmetryAD/
 ├── results/                         # Output files and results of experiments
 └── README.md                        # This file!
 
-## 📁 Repository Explanation
+Repository Explanation:
 Inside of code/ repository you can find all the code I've written. Main scripts are:
    - AI_longitudinal: man script for all my longitudinal analysis
    - AI_longitudinal_functions: all the functions called and used in AI_longitudinal script
